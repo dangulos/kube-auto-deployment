@@ -1,0 +1,39 @@
+  
+{
+    "kind": "Deployment",
+    "spec": {
+      "replicas": 3,
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "image": "dangulos/itrm-container:0003",
+              "name": "itrm",
+              "ports": [
+                {
+                  "containerPort": 3000
+                }
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "labels": {
+            "app": "itrm-container"
+          }
+        }
+      },
+      "selector": {
+        "matchLabels": {
+          "app": "itrm-container"
+        }
+      }
+    },
+    "apiVersion": "apps/v1",
+    "metadata": {
+      "labels": {
+        "app": "itrm-container"
+      },
+      "name": "itrm-deployment"
+    }
+  }
