@@ -24,12 +24,22 @@ async function applyDeploy (name) {
         const client = new Client({ config: config.fromKubeconfig(), version: '1.13' })
         
         deploymentManifest.metadata.name = name;
+        //deploymentManifest.metadata.labels.app = name;
+        //deploymentManifest.spec.selector.matchLabels.app = name;
+        //deploymentManifest.spec.template.metadata.labels.app = name;
         serviceManifest.metadata.name = name;
+        //serviceManifest.spec.selector.app = name;
+
+        try{
+            console.log('ingress: ', await client.apis.extensions.v1beta1.namespaces('default').ingresses.get)
+        }catch(e){
+            console.log(e)
+        }
 
         try {
         const createDeployment = await client.apis.apps.v1.namespaces('default').deployments.post({ body: deploymentManifest });
         const createService = await client.api.v1.namespaces('default').services.post({ body: serviceManifest });
-        console.log('deployment:', createDeployment,"\nservice:", createService);
+        //console.log('deployment:', createDeployment,"\nservice:", createService);
         let r = {
             "deployment":createDeployment,
             "service":createService
@@ -40,9 +50,11 @@ async function applyDeploy (name) {
             reject("There was an error");
             throw err;
         }
+        const ingresses = await client.apis.extensions.v1beta1.ingresses.get();
         const replace = await client.apis.apps.v1.namespaces('default').deployments(''+name).put({ body: deploymentManifest })
         console.log('Replace:', replace)
-        response({"deployment":replace,"service":createService});
+        console.log('ingress', ingresses)
+        response({"deployment":replace,"ingress": ingresses});
         }
     });
 };  
