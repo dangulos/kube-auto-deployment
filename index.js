@@ -2,7 +2,8 @@ var express = require("express");
 var https = require("https");
 var http = require("http");
 
-var port = process.env.PORT_SERVICE1 || 420;
+const PORT = process.env.PORT || 420;
+const HOST = process.env.HOST || '0.0.0.0';
 
 var app = express();
 
@@ -93,5 +94,5 @@ app.delete("/", function (req, res){
     });
 });
 
-app.listen(port);
-console.log("Hello! Api service running on port " + port);
+app.listen(PORT,HOST);
+console.log("Hello! Api service running on port " + PORT);
