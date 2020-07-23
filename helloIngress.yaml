@@ -1,14 +1,15 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: ingress
+  name: test-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: v1.peladonerd.local 
-    http:
+  - http:
       paths:
-      - backend:
-          serviceName: hello-v1-svc
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          serviceName: nginx-deployment
           servicePort: 80
