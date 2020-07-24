@@ -99,5 +99,5 @@ app.delete("/", function (req, res){
     });
 });
 
-app.listen(PORT,HOST);
+app.listen(PORT);
 console.log("Hello! Api service running on port " + PORT);
