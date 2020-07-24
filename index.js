@@ -33,7 +33,7 @@ async function applyDeploy (name) {
         serviceManifest.spec.selector.app = ""+name;
 
         ingressManifest.metadata.name = ""+name;
-        ingressManifest.spec.rules[0].http.paths[0].path = "/" + name;
+        ingressManifest.spec.rules[0].http.paths[0].path = "/" + name + "/?(.*)";
         ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
         console.log("Deployment: ", deploymentManifest);
