@@ -40,7 +40,7 @@ async function applyDeploy (name) {
         try {
         const createDeployment = await client.apis.apps.v1.namespaces('default').deployments.post({ body: deploymentManifest });
         const createService = await client.api.v1.namespaces('default').services.post({ body: serviceManifest });
-        const createIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses.post({body: ingressManifest})
+        const createIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses.post({body: ingressManifest});
         //console.log('deployment:', createDeployment,"\nservice:", createService);
         let r = {
             "deployment":createDeployment,
