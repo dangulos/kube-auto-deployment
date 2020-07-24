@@ -8,7 +8,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /testpath
+      - path: /hello-nginx
         pathType: Prefix
         backend:
           serviceName: nginx-deployment
