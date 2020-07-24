@@ -25,9 +25,9 @@ async function applyDeploy (name) {
         const client = new Client({ config: config.fromKubeconfig(), version: '1.13' })
         
         deploymentManifest.metadata.name = ""+name;
-        //deploymentManifest.metadata.labels.app = name;
-        //deploymentManifest.spec.selector.matchLabels.app = name;
-        //deploymentManifest.spec.template.metadata.labels.app = name;
+        deploymentManifest.metadata.labels.app = ""+name;
+        deploymentManifest.spec.selector.matchLabels.app = ""+name;
+        deploymentManifest.spec.template.metadata.labels.app = ""+name;
 
         serviceManifest.metadata.name = ""+name;
         serviceManifest.spec.selector.app = ""+name;
