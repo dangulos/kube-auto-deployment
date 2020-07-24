@@ -10,11 +10,11 @@
     "spec":{
         "rules":[
             {
-                "host": "foo.bar.com",
                 "http":{
                     "paths":[
                         {
                             "path":"/foo",
+                            "pathType":"Prefix",
                             "backend":{
                                 "serviceName":"service",
                                 "servicePort":"3000"

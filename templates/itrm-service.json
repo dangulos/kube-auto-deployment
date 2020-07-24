@@ -8,7 +8,7 @@
         }
     },
     "spec": {
-        "type":"NodePort",
+        "type":"ClusterIp",
         "selector": {
             "app": "itrm-container"
         },
