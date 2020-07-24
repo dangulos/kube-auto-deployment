@@ -24,18 +24,21 @@ async function applyDeploy (name) {
     return new Promise(async function(response,reject){
         const client = new Client({ config: config.fromKubeconfig(), version: '1.13' })
         
-        deploymentManifest.metadata.name = name;
+        deploymentManifest.metadata.name = ""+name;
         //deploymentManifest.metadata.labels.app = name;
         //deploymentManifest.spec.selector.matchLabels.app = name;
         //deploymentManifest.spec.template.metadata.labels.app = name;
 
-        serviceManifest.metadata.name = name;
-        serviceManifest.spec.selector.app = name;
+        serviceManifest.metadata.name = ""+name;
+        serviceManifest.spec.selector.app = ""+name;
 
-        ingressManifest.metadata.name = name;
+        ingressManifest.metadata.name = ""+name;
         ingressManifest.spec.rules[0].http.paths[0].path = "/" + name;
-        ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = name;
+        ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
+        console.log("Deployment: ", deploymentManifest);
+        console.log("Service: ", serviceManifest);
+        console.log("Ingress: ", ingressManifest);
 
         try {
         const createDeployment = await client.apis.apps.v1.namespaces('default').deployments.post({ body: deploymentManifest });
