@@ -88,6 +88,10 @@ app.get("/", function (req, res) {
     });
 });
 
+app.get("/healthz", function (req, res) {
+    res.status(200).json({msg: "Kid A: 1st track"});
+});
+
 app.delete("/", function (req, res){
     deletePod(req.query.name).then((response,reject)=>{
         if(reject) res.status(500).json({error: "Internal server error"});
