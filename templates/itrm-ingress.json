@@ -4,7 +4,7 @@
     "metadata":{
         "name": "itrm-ingress",
         "annotations":{
-            "nginx.ingress.kubernetes.io/rewrite-target": "/"
+            "nginx.ingress.kubernetes.io/rewrite-target": ""
         }
     },
     "spec":{
@@ -13,7 +13,7 @@
                 "http":{
                     "paths":[
                         {
-                            "path":"/foo",
+                            "path":"",
                             "pathType":"Prefix",
                             "backend":{
                                 "serviceName":"service",

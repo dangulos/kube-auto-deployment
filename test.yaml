@@ -1,0 +1,7 @@
+controller:
+    nginxplus: true
+    image:
+        repository: "gcr.io/nginx-ic-dev/nginx-plus-ingress"
+        tag: "edge"
+    service:
+        loadBalancerIP: "68.183.132.227"
