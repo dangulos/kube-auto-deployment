@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-v1
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: hello-v1
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: hello
-        image: gcr.io/google-samples/hello-app:1.0
+        image: rawmind/web-test:latest
         imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 8080

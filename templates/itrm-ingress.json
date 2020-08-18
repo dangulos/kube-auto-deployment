@@ -4,8 +4,12 @@
     "metadata":{
         "name": "itrm-ingress",
         "annotations":{
-            "nginx.ingress.kubernetes.io/rewrite-target": "/"
-        }
+            "nginx.ingress.kubernetes.io/rewrite-target": "/$1",
+	    "kubernetes.io/ingress.class": "nginx",
+            "nginx.ingress.kubernetes.io/ssl-redirect": "false",
+	    "nginx.ingress.kubernetes.io/config-snippet":"location /{ root /home/theia/theia-production/lib/; index index.html; autoindex on;}"
+	    
+	}
     },
     "spec":{
         "rules":[
@@ -13,7 +17,7 @@
                 "http":{
                     "paths":[
                         {
-                            "path":"/foo",
+                            "path":"/",
                             "pathType":"Prefix",
                             "backend":{
                                 "serviceName":"service",
