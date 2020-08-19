@@ -5,16 +5,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "12h"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.org/server-snippet: "proxy_ssl_verify off;"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-        rewrite ^(/mytest)$ $1/ permanent;
 spec:
   rules:
+          #  - host: itrm.example
   - http:
       paths:
       - path: /mytest(/|$)(.*)
         backend:
-          serviceName: hello-v1
-          servicePort: 8080
+          serviceName: deployment
+          servicePort: 3000
