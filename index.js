@@ -50,7 +50,7 @@ async function applyDeploy (name) {
             "service":createService,
             "ingress":createIngress
         };
-        response(JSON.stringify(r));
+        response(r);
         } catch (err) {
         if (err.code !== 409) {
             reject("There was an error");
