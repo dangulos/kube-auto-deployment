@@ -3,7 +3,7 @@ var https = require("https");
 var http = require("http");
 
 const PORT = process.env.PORT || 420;
-const HOST = process.env.HOST || '0.0.0.0';
+//const HOST = process.env.HOST || '0.0.0.0';
 
 var app = express();
 
@@ -44,13 +44,13 @@ async function applyDeploy (name) {
         const createDeployment = await client.apis.apps.v1.namespaces('default').deployments.post({ body: deploymentManifest });
         const createService = await client.api.v1.namespaces('default').services.post({ body: serviceManifest });
         const createIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses.post({body: ingressManifest});
-        //console.log('deployment:', createDeployment,"\nservice:", createService);
+        console.log('Creating new container');
         let r = {
             "deployment":createDeployment,
             "service":createService,
             "ingress":createIngress
         };
-        response(r);
+        response(JSON.stringify(r));
         } catch (err) {
         if (err.code !== 409) {
             reject("There was an error");
@@ -102,5 +102,6 @@ app.delete("/", function (req, res){
     });
 });
 
-app.listen(PORT);
-console.log("Hello! Api service running on port " + PORT);
+app.listen(PORT,() => {
+	console.log("Hello! API service running on port " + PORT);
+});

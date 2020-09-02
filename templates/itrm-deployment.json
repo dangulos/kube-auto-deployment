@@ -7,7 +7,7 @@
         "spec": {
           "containers": [
             {
-              "image": "theiaide/theia",
+              "image": "dangulos/itrm-container:0003",
               "name": "itrm-container",
               "ports": [
                 {

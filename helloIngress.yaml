@@ -10,7 +10,7 @@ spec:
           #  - host: itrm.example
   - http:
       paths:
-      - path: /mytest(/|$)(.*)
+      - path: /theia(/|$)(.*)
         backend:
-          serviceName: deployment
+          serviceName: theia
           servicePort: 3000
