@@ -20,13 +20,13 @@
                                 "servicePort":3000
                             }
                         },
-			{
-			    "path":"/",
-			    "backend":{
-			    	"serviceName":"service",
-				"servicePort": 5000
-			    }
-			}
+                        {
+                            "path":"/",
+                            "backend":{
+                                "serviceName":"service",
+                            "servicePort": 5000
+                            }
+                        }
                     ]
                 }
             }

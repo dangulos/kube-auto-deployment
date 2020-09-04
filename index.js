@@ -39,6 +39,9 @@ async function applyDeploy (name) {
         ingressManifest.spec.rules[0].http.paths[0].path = "/" + name + "(/|$)(.*)";
         ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
+        ingressManifest.spec.rules[0].http.paths[1].path = "/TV/" + name + "(/|$)(.*)";
+        ingressManifest.spec.rules[0].http.paths[1].backend.serviceName = ""+name;
+
         console.log("Deployment: ", deploymentManifest);
         console.log("Service: ", serviceManifest);
         console.log("Ingress: ", ingressManifest);
