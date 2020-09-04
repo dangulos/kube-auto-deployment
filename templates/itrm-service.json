@@ -11,12 +11,12 @@
         },
         "ports":[
             {
-                "name": "THEIA",
+                "name": "theia",
                 "port": 3000,
                 "protocol": "TCP"
             },
             {
-                "name": "TV",
+                "name": "theia",
                 "port": 5000,
                 "protocol": "TCP"
             }
