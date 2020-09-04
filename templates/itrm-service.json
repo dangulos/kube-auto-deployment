@@ -16,7 +16,7 @@
                 "protocol": "TCP"
             },
             {
-                "name": "theia",
+                "name": "tv",
                 "port": 5000,
                 "protocol": "TCP"
             }
