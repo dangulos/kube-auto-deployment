@@ -1,11 +1,14 @@
 var express = require("express");
 var https = require("https");
+var cors = require("cors");
 var http = require("http");
 
 const PORT = process.env.PORT || 420;
 //const HOST = process.env.HOST || '0.0.0.0';
 
 var app = express();
+
+app.use(cors());
 
 //https://github.com/godaddy/kubernetes-client
 //Cliente que maneja kubernetes desde node
