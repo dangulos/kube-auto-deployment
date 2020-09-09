@@ -16,6 +16,7 @@ const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
 var deploymentManifest = require('./templates/itrm-deployment.json');
 var serviceManifest = require('./templates/itrm-service.json');
+var serviceTVManifest = require('./templates/itrm-servicetv.json');
 var ingressManifest = require('./templates/itrm-ingress.json');
 var ingressTVManifest = require('./templates/itrm-ingresstv.json');
 
@@ -33,23 +34,28 @@ async function applyDeploy (name) {
         serviceManifest.metadata.name = ""+name;
         serviceManifest.spec.selector.app = ""+name;
 
+        serviceTVManifest.metadata.name = ""+name+"tv";
+        serviceTVManifest.spec.selector.app = ""+name+"tv";
+
         ingressManifest.metadata.name = ""+name;
         ingressManifest.spec.rules[0].http.paths[0].path = "/" + name + "(/|$)(.*)";
         ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
         ingressTVManifest.metadata.name = ""+name+"tv";
         ingressTVManifest.spec.rules[0].http.paths[0].path = "/tv/" + name + "(/|$)(.*)";
-        ingressTVManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
+        ingressTVManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name+"tv";
 
         try {
         const createDeployment = await client.apis.apps.v1.namespaces('default').deployments.post({ body: deploymentManifest });
         const createService = await client.api.v1.namespaces('default').services.post({ body: serviceManifest });
+        const createServiceTV = await client.api.v1.namespaces('default').services.post({ body: serviceTVManifest });
         const createIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses.post({body: ingressManifest});
         const createIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses.post({body: ingressTVManifest});
         console.log('Creating new container');
         let r = {
             "deployment":createDeployment,
             "service":createService,
+            "seerviceTV":createServiceTV,
             "ingress":createIngress,
             "ingressTV":createIngressTV
         };
@@ -62,8 +68,9 @@ async function applyDeploy (name) {
         }
         const replaceDeploy = await client.apis.apps.v1.namespaces('default').deployments(''+name).put({ body: deploymentManifest });
         const replaceService = await client.api.v1.namespaces('default').services(''+name).put({ body: serviceManifest });
+        const replaceService = await client.api.v1.namespaces('default').services(''+name+'tv').put({ body: serviceTVManifest });
         const replaceIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).put({body: ingressManifest});
-        const replaceIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).put({body: ingressTVManifest});
+        const replaceIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name+'tv').put({body: ingressTVManifest});
         
         console.log(
             {
@@ -91,10 +98,11 @@ async function deletePod(name){
         try{
             const replace = await client.apis.apps.v1.namespaces('default').deployments(''+name).delete();
             const deleteService = await client.api.v1.namespaces('default').services(''+name).delete();
+            const deleteServiceTV = await client.api.v1.namespaces('default').services(''+name+'tv').delete();
             const deleteIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).delete();
             const deleteIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name+'tv').delete();
             console.log("delete succesful!");
-            response({"deployment":replace,"service":deleteService, "ingess":deleteIngress, "ingressTV":deleteIngressTV});
+            response({"deployment":replace,"service":deleteService,"service":deleteServiceTV ,"ingess":deleteIngress, "ingressTV":deleteIngressTV});
         } catch(err){
             console.log("There was an err: ", err);
             reject("There was an error");
