@@ -37,6 +37,7 @@ async function applyDeploy (name) {
         ingressManifest.spec.rules[0].http.paths[0].path = "/" + name + "(/|$)(.*)";
         ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
+        ingressManifest.metadata.name = ""+name+"TV";
         ingressTVManifest.spec.rules[0].http.paths[0].path = "/TV/" + name + "(/|$)(.*)";
         ingressTVManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
@@ -92,10 +93,11 @@ async function deletePod(name){
 
         try{
             const replace = await client.apis.apps.v1.namespaces('default').deployments(''+name).delete();
-            const createService = await client.api.v1.namespaces('default').services(''+name).delete();
+            const deleteService = await client.api.v1.namespaces('default').services(''+name).delete();
             const deleteIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).delete();
+            const deleteIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name+'TV').delete();
             console.log("delete succesful!");
-            response({"deployment":replace,"service":createService});
+            response({"deployment":replace,"service":deleteService, "ingess":deleteIngress, "ingressTV":deleteIngressTV});
         } catch(err){
             console.log("There was an err: ", err);
             reject("There was an error");
