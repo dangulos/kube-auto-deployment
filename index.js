@@ -30,6 +30,7 @@ async function applyDeploy (name) {
         deploymentManifest.metadata.labels.app = ""+name;
         deploymentManifest.spec.selector.matchLabels.app = ""+name;
         deploymentManifest.spec.template.metadata.labels.app = ""+name;
+        deploymentManifest.spec.template.spec.containers[0].env[0].value = ""+name;
 
         serviceManifest.metadata.name = ""+name;
         serviceManifest.spec.selector.app = ""+name;

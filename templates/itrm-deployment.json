@@ -15,12 +15,12 @@
                 },
                 {
                   "containerPort": 5000
-                },
-		"env":[
-		  "name":"MYNAME",
-		  "value":"name"
-		]
-              ]
+                }
+              ],
+              "env":[{
+                "name":"MYNAME",
+                "value":"name"
+              }]
             }
           ]
         },
