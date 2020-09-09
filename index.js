@@ -35,7 +35,7 @@ async function applyDeploy (name) {
         serviceManifest.spec.selector.app = ""+name;
 
         serviceTVManifest.metadata.name = ""+name+"tv";
-        serviceTVManifest.spec.selector.app = ""+name+"tv";
+        serviceTVManifest.spec.selector.app = ""+name;
 
         ingressManifest.metadata.name = ""+name;
         ingressManifest.spec.rules[0].http.paths[0].path = "/" + name + "(/|$)(.*)";
