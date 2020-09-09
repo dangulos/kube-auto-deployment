@@ -17,9 +17,7 @@ const config = require('kubernetes-client').config;
 var deploymentManifest = require('./templates/itrm-deployment.json');
 var serviceManifest = require('./templates/itrm-service.json');
 var ingressManifest = require('./templates/itrm-ingress.json');
-
-//Controladores
-//Se pasarán a otro archivo
+var ingressTVManifest = require('./templates/itrm-ingresstv.json');
 
 //Crea un pod con las especificaiones de itrm-deployment.json
 //si ya existe un pod con ese nombre, lo vuelve a crear
@@ -39,8 +37,8 @@ async function applyDeploy (name) {
         ingressManifest.spec.rules[0].http.paths[0].path = "/" + name + "(/|$)(.*)";
         ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
-        ingressManifest.spec.rules[0].http.paths[1].path = "/TV/" + name + "(/|$)(.*)";
-        ingressManifest.spec.rules[0].http.paths[1].backend.serviceName = ""+name;
+        ingressTVManifest.spec.rules[0].http.paths[0].path = "/TV/" + name + "(/|$)(.*)";
+        ingressTVManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
         console.log("Deployment: ", deploymentManifest);
         console.log("Service: ", serviceManifest);
@@ -50,11 +48,13 @@ async function applyDeploy (name) {
         const createDeployment = await client.apis.apps.v1.namespaces('default').deployments.post({ body: deploymentManifest });
         const createService = await client.api.v1.namespaces('default').services.post({ body: serviceManifest });
         const createIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses.post({body: ingressManifest});
+        const createIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses.post({body: ingressTVManifest});
         console.log('Creating new container');
         let r = {
             "deployment":createDeployment,
             "service":createService,
-            "ingress":createIngress
+            "ingress":createIngress,
+            "ingressTV":createIngressTV
         };
         response(r);
         } catch (err) {
@@ -62,9 +62,25 @@ async function applyDeploy (name) {
             reject("There was an error");
             throw err;
         }
-        const replace = await client.apis.apps.v1.namespaces('default').deployments(''+name).put({ body: deploymentManifest })
-        console.log('Replace:', replace);
-        response({"deployment":replace});
+        const replaceDeploy = await client.apis.apps.v1.namespaces('default').deployments(''+name).put({ body: deploymentManifest });
+        const replaceService = await client.api.v1.namespaces('default').services.put({ body: serviceManifest });
+        const replaceIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses.put({body: ingressManifest});
+        const replaceIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses.put({body: ingressTVManifest});
+        
+        console.log(
+            {
+                "deployment":replaceDeploy,
+                "service":replaceService,
+                "ingress":replaceIngress,
+                "ingressTV":replaceIngressTV
+            }
+        );
+        response({
+            "deployment":replaceDeploy,
+            "service":replaceService,
+            "ingress":replaceIngress,
+            "ingressTV":replaceIngressTV
+        });
         }
     });
 };  
@@ -77,7 +93,7 @@ async function deletePod(name){
         try{
             const replace = await client.apis.apps.v1.namespaces('default').deployments(''+name).delete();
             const createService = await client.api.v1.namespaces('default').services(''+name).delete();
-            const deleteIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).delete
+            const deleteIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).delete();
             console.log("delete succesful!");
             response({"deployment":replace,"service":createService});
         } catch(err){

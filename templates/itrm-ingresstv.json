@@ -17,7 +17,7 @@
                             "path":"/",
                             "backend":{
                                 "serviceName":"service",
-                                "servicePort":3000
+                                "servicePort": 5000
                             }
                         }
                     ]
