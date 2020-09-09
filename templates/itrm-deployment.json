@@ -7,7 +7,7 @@
         "spec": {
           "containers": [
             {
-              "image": "dangulos/itrm-container:latest",
+              "image": "dangulos/itrm-container:0005",
               "name": "itrm-container",
               "ports": [
                 {
@@ -17,10 +17,12 @@
                   "containerPort": 5000
                 }
               ],
-              "env":[{
+              "env":[
+                {
                 "name":"MYNAME",
                 "value":"name"
-              }]
+                }
+              ]
             }
           ]
         },
