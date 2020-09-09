@@ -4,7 +4,7 @@
     "metadata":{
         "name": "itrm-ingress",
         "annotations":{
-            "nginx.ingress.kubernetes.io/rewrite-target": "/$3",
+            "nginx.ingress.kubernetes.io/rewrite-target": "/$2",
 	        "kubernetes.io/ingress.class": "nginx"	    
 	    }
     },
