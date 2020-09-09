@@ -37,13 +37,9 @@ async function applyDeploy (name) {
         ingressManifest.spec.rules[0].http.paths[0].path = "/" + name + "(/|$)(.*)";
         ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
-        ingressManifest.metadata.name = ""+name+"TV";
-        ingressTVManifest.spec.rules[0].http.paths[0].path = "/TV/" + name + "(/|$)(.*)";
+        ingressManifest.metadata.name = ""+name+"tv";
+        ingressTVManifest.spec.rules[0].http.paths[0].path = "/tv/" + name + "(/|$)(.*)";
         ingressTVManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
-
-        console.log("Deployment: ", deploymentManifest);
-        console.log("Service: ", serviceManifest);
-        console.log("Ingress: ", ingressManifest);
 
         try {
         const createDeployment = await client.apis.apps.v1.namespaces('default').deployments.post({ body: deploymentManifest });
@@ -57,6 +53,7 @@ async function applyDeploy (name) {
             "ingress":createIngress,
             "ingressTV":createIngressTV
         };
+        console.log(r);
         response(r);
         } catch (err) {
         if (err.code !== 409) {
