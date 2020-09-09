@@ -42,7 +42,7 @@ async function applyDeploy (name) {
         ingressManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name;
 
         ingressTVManifest.metadata.name = ""+name+"tv";
-        ingressTVManifest.spec.rules[0].http.paths[0].path = "/tv/" + name + "(/|$)(.*)";
+        ingressTVManifest.spec.rules[0].http.paths[0].path = "/" + name + "tv" + "(/|$)(.*)";
         ingressTVManifest.spec.rules[0].http.paths[0].backend.serviceName = ""+name+"tv";
 
         try {
