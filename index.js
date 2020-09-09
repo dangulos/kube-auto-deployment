@@ -61,9 +61,9 @@ async function applyDeploy (name) {
             throw err;
         }
         const replaceDeploy = await client.apis.apps.v1.namespaces('default').deployments(''+name).put({ body: deploymentManifest });
-        const replaceService = await client.api.v1.namespaces('default').services.put({ body: serviceManifest });
-        const replaceIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses.put({body: ingressManifest});
-        const replaceIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses.put({body: ingressTVManifest});
+        const replaceService = await client.api.v1.namespaces('default').services(''+name).put({ body: serviceManifest });
+        const replaceIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).put({body: ingressManifest});
+        const replaceIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).put({body: ingressTVManifest});
         
         console.log(
             {
@@ -92,7 +92,7 @@ async function deletePod(name){
             const replace = await client.apis.apps.v1.namespaces('default').deployments(''+name).delete();
             const deleteService = await client.api.v1.namespaces('default').services(''+name).delete();
             const deleteIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).delete();
-            const deleteIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name+'TV').delete();
+            const deleteIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name+'tv').delete();
             console.log("delete succesful!");
             response({"deployment":replace,"service":deleteService, "ingess":deleteIngress, "ingressTV":deleteIngressTV});
         } catch(err){
