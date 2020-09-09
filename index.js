@@ -68,7 +68,7 @@ async function applyDeploy (name) {
         }
         const replaceDeploy = await client.apis.apps.v1.namespaces('default').deployments(''+name).put({ body: deploymentManifest });
         const replaceService = await client.api.v1.namespaces('default').services(''+name).put({ body: serviceManifest });
-        const replaceService = await client.api.v1.namespaces('default').services(''+name+'tv').put({ body: serviceTVManifest });
+        const replaceServiceTV = await client.api.v1.namespaces('default').services(''+name+'tv').put({ body: serviceTVManifest });
         const replaceIngress = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name).put({body: ingressManifest});
         const replaceIngressTV = await client.apis.extensions.v1beta1.namespaces('default').ingresses(''+name+'tv').put({body: ingressTVManifest});
         
